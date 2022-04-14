@@ -55,29 +55,29 @@ namespace _0414_coremvc_fileUpload.Controllers
                 }
 
                 ViewData["Message"] = "upload file sccess!, filed directory: " + url;
+
+                try
+                {
+                    var uploadParam = new ImageUploadParams()
+                    {
+                        File = new FileDescription(pathFile)
+                    };
+                    var uploadResult = _cloudinary.Upload(uploadParam);
+
+                    ViewData["Message"] = "upload file sccess!, filed directory: " + uploadResult.Url;
+
+                    ViewData["FullInfo"] = JsonConvert.SerializeObject(uploadResult.JsonObj);
+
+                    int i = 0;
+                }
+                catch (Exception ex)
+                {
+                    ViewData["Message"] = "upload file faled!" + ex.ToString();
+                }
             }
             catch (Exception ex)
             {
                 ViewData["Message"] = "upload file faled!" + ex.Message;
-            }
-
-            try
-            {
-                var uploadParam = new ImageUploadParams()
-                {
-                    File = new FileDescription(pathFile)
-                };
-                var uploadResult = _cloudinary.Upload(uploadParam);
-
-                ViewData["Message"] = "upload file sccess!, filed directory: " + uploadResult.Url;
-
-                ViewData["FullInfo"] = JsonConvert.SerializeObject(uploadResult.JsonObj);
-
-                int i = 0;
-            }
-            catch(Exception ex)
-            {
-                ViewData["Message"] = "upload file faled!" + ex.ToString();
             }
 
             return View("CloudinaryUploadResult");
