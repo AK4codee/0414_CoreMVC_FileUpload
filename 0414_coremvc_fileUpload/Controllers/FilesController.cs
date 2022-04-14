@@ -24,6 +24,10 @@ namespace _0414_coremvc_fileUpload.Controllers
 
             string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploadFiles", file.FileName);
 
+            string virtualPath = Url.Content("UploadFiles/" + file.FileName);
+
+            string url = $"{Request.Scheme}://{Request.Host.Value}/{virtualPath}";
+
             try
             {
                 using(var stream = new FileStream(pathFile, FileMode.Create))
@@ -31,7 +35,7 @@ namespace _0414_coremvc_fileUpload.Controllers
                     await file.CopyToAsync(stream);
                 }
 
-                ViewData["Message"] = "upload file sccess!";
+                ViewData["Message"] = "upload file sccess!, filed directory: " +  url ;
             }
             catch (Exception ex)
             {
