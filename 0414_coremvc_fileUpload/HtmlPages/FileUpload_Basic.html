@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>File Upload 單檔上傳</h1>
-    <form>
+    <form action="/Files/UploadFile" method="post" enctype="multipart/form-data">
         <div>
             <label for="upload-file">upload the file</label>
             <input type="file" id="upload-file" name="file"/>
