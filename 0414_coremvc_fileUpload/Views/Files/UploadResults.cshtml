@@ -1,0 +1,13 @@
+﻿@{
+    var messages = (Dictionary<string, string>)ViewData["Message"];
+}
+
+<h1>Upload Result</h1>
+<h4>檔案上傳結果</h4>
+
+<ul>
+    @foreach(var item in messages)
+    {
+        <li>@item.Key, @item.Value</li>
+    }
+</ul>
