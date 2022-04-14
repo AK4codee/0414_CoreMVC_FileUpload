@@ -84,5 +84,39 @@ namespace _0414_coremvc_fileUpload.Controllers
             ViewData["Message"] = map;
             return View("UploadResults");
         }
+
+        public async Task<IActionResult> UploadingMultiFiles(List<IFormFile> files)
+        {
+            int fileNumbers = 0;
+            foreach (IFormFile file in files)
+            {
+                if (files == null || files.Count() == 0)
+                {
+                    continue;
+                }
+
+                string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploadFiles", file.FileName);
+
+                string virtualPath = Url.Content("UploadFiles/" + file.FileName);
+
+                string url = $"{Request.Scheme}://{Request.Host.Value}/{virtualPath}";
+
+                fileNumbers++;
+
+                try
+                {
+                    using (var stream = new FileStream(pathFile, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+            }
+
+            return Content($"{fileNumbers}個檔案上傳");
+        }
     }
 }
